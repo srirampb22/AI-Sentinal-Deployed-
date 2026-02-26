@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AiSentinal Platform | Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="app.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="app.html" class="active">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="detect.html">Detect</a>
+        <a href="detected.html">Detected</a>
+        <a href="about.html">About Us</a>
+        <a href="#" class="btn btn-link" data-logout>Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="tag">Welcome To The Platform</p>
+          <h1>Analyze, Detect, And Track Deepfake Risk In One Workspace</h1>
+          <p class="lead">
+            You are logged in. Use the dashboard and detection tools to upload media, review flagged files,
+            and monitor trust metrics across your projects.
+          </p>
+          <div class="hero-cta">
+            <a href="dashboard.html" class="btn btn-primary">Open Dashboard</a>
+            <a href="detect.html" class="btn btn-outline">Start Detection</a>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Available Services</h2>
+          <ul class="list">
+            <li>Live image and video deepfake analysis</li>
+            <li>Flagged media queue and confidence scores</li>
+            <li>Investigation notes and audit-ready workflow</li>
+            <li>Actionable summary reports for teams</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 AiSentinal. All rights reserved.</p>
+      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

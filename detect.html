@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detect | AiSentinal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="app.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="app.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="detect.html" class="active">Detect</a>
+        <a href="detected.html">Detected</a>
+        <a href="about.html">About Us</a>
+        <a href="#" class="btn btn-link" data-logout>Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Run Deepfake Detection</h1>
+        <p class="lead">Upload an image or video and get an instant confidence score.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="card">
+        <form>
+          <label for="mediaType">Media Type</label>
+          <select id="mediaType">
+            <option>Image</option>
+            <option>Video</option>
+          </select>
+
+          <label for="fileUpload">Upload File</label>
+          <input id="fileUpload" type="file" accept="image/*,video/*">
+
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" rows="4" placeholder="Any context for this detection request"></textarea>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Analyze File</button>
+            <button class="btn btn-link" type="reset">Clear</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 AiSentinal. All rights reserved.</p>
+      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

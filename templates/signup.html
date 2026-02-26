@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | AiSentinal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html" class="btn btn-link">Login</a>
+        <a href="signup.html" class="btn btn-primary active">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Create Your AiSentinal Account</h1>
+        <p class="lead">Get started in minutes and begin scanning media for deepfakes.</p>
+      </div>
+    </section>
+
+    <section class="form-wrap card">
+      <form data-auth-redirect="app.html">
+        <label for="fullname">Full Name</label>
+        <input id="fullname" type="text" placeholder="John Doe" required>
+
+        <label for="workemail">Work Email</label>
+        <input id="workemail" type="email" placeholder="you@company.com" required>
+
+        <label for="company">Company</label>
+        <input id="company" type="text" placeholder="Your company">
+
+        <label for="newpassword">Password</label>
+        <input id="newpassword" type="password" placeholder="Create a strong password" required>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Sign Up</button>
+          <a href="login.html" class="btn btn-outline">Already Have Account</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 AiSentinal. All rights reserved.</p>
+      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

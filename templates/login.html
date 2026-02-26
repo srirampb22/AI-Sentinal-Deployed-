@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | AiSentinal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html" class="btn btn-link active">Login</a>
+        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Welcome Back</h1>
+        <p class="lead">Log in to monitor detections, review flagged content, and manage your account.</p>
+      </div>
+    </section>
+
+    <section class="form-wrap card">
+      <form data-auth-redirect="app.html">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@company.com" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" required>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Login</button>
+          <a href="signup.html" class="btn btn-outline">Create Account</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 AiSentinal. All rights reserved.</p>
+      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
