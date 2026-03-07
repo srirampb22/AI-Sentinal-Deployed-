@@ -12,16 +12,16 @@
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a href="index.html" class="logo">
+      <a href="{{ url_for('home') }}" class="logo">
         <span class="logo-mark">AS</span>
         <span>AiSentinal</span>
       </a>
       <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
       <nav class="site-nav" id="siteNav">
-        <a href="index.html" class="active">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="login.html" class="btn btn-link">Login</a>
-        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        <a href="{{ url_for('home') }}" class="active">Home</a>
+        <a href="{{ url_for('about_page') }}">About Us</a>
+        <a href="{{ url_for('login') }}" class="btn btn-link">Login</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary">Sign Up</a>
       </nav>
     </div>
   </header>
@@ -37,8 +37,8 @@
             confidence, and protect your platform and users.
           </p>
           <div class="hero-cta">
-            <a href="signup.html" class="btn btn-primary">Start Free</a>
-            <a href="login.html" class="btn btn-outline">Login To Continue</a>
+            <a href="{{ url_for('signup') }}" class="btn btn-primary">Start Free</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline">Login To Continue</a>
           </div>
         </div>
         <div class="card stats-card">
@@ -90,8 +90,8 @@
     <div class="container footer-wrap">
       <p>© 2026 AiSentinal. All rights reserved.</p>
       <div class="footer-links">
-        <a href="faq.html">FAQ</a>
-        <a href="contact.html">Contact Us</a>
+        <a href="{{ url_for('faq_page') }}">FAQ</a>
+        <a href="{{ url_for('contact_page') }}">Contact Us</a>
       </div>
     </div>
   </footer>

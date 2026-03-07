@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard | AiSentinal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +13,21 @@
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a href="app.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <a href="{{ url_for('app_home') }}" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
       <nav class="site-nav" id="siteNav">
-        <a href="app.html">Home</a>
-        <a href="dashboard.html" class="active">Dashboard</a>
-        <a href="detect.html">Detect</a>
-        <a href="detected.html">Detected</a>
-        <a href="about.html">About Us</a>
+        <a href="{{ url_for('app_home') }}">Home</a>
+        {% if not current_user.is_admin %}<a href="{{ url_for('dashboard_page') }}" class="active">Dashboard</a>{% endif %}
+        <a href="{{ url_for('detect_page') }}">Detect</a>
+        <a href="{{ url_for('detected_page') }}">Detected</a>
+        <a href="{{ url_for('about_page') }}">About Us</a>
+        {% if current_user.is_admin %}<a href="{{ url_for('admin_dashboard_page') }}">Admin Portal</a>{% endif %}
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+          <span class="toggle-track">
+            <span class="toggle-cloud"></span>
+            <span class="toggle-knob"></span>
+          </span>
+        </button>
         <a href="#" class="btn btn-link" data-logout>Logout</a>
       </nav>
     </div>
@@ -29,7 +37,7 @@
     <section class="page-head">
       <div class="container">
         <h1>Detection Dashboard</h1>
-        <p class="lead">Monitor latest scans, flagged files, and team activity from one place.</p>
+        <p class="lead">Monitor real detections generated from your uploaded videos.</p>
       </div>
     </section>
 
@@ -37,18 +45,25 @@
       <article class="card">
         <h2>Recent Detections</h2>
         <ul class="list">
-          <li>Candidate_footage_02.mp4 - <span class="status warn">Flagged (84%)</span></li>
-          <li>profile_picture_128.jpg - <span class="status ok">Authentic (96%)</span></li>
-          <li>campaign_clip_edit.mp4 - <span class="status warn">Flagged (79%)</span></li>
-          <li>podcast_guest_shot.png - <span class="status ok">Authentic (93%)</span></li>
+          {% for scan in scans %}
+          <li>
+            {{ scan.filename }} -
+            <span class="status {{ 'warn' if scan.output == 'FAKE' else 'ok' if scan.output == 'REAL' else '' }}">
+              {{ scan.output }}{% if scan.confidence is not none %} ({{ '%.2f'|format(scan.confidence) }}%){% endif %}
+            </span>
+          </li>
+          {% else %}
+          <li>No detections yet. Upload your first video from Detect page.</li>
+          {% endfor %}
         </ul>
       </article>
       <article class="card">
         <h2>Account Summary</h2>
-        <p><strong>Plan:</strong> Business Trial</p>
-        <p><strong>Scans This Month:</strong> 1,284</p>
-        <p><strong>Flagged:</strong> 218</p>
-        <p><strong>Team Members:</strong> 6</p>
+        <p><strong>User:</strong> {{ current_user.full_name or current_user.username }}</p>
+        <p><strong>Role:</strong> {{ 'Admin' if current_user.is_admin else 'User' }}</p>
+        <p><strong>Total Scans:</strong> {{ summary.total or 0 }}</p>
+        <p><strong>Flagged (FAKE):</strong> {{ summary.flagged or 0 }}</p>
+        <p><strong>Authentic (REAL):</strong> {{ summary.authentic or 0 }}</p>
       </article>
     </section>
   </main>
@@ -56,10 +71,11 @@
   <footer class="site-footer">
     <div class="container footer-wrap">
       <p>© 2026 AiSentinal. All rights reserved.</p>
-      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+      <div class="footer-links"><a href="{{ url_for('faq_page') }}">FAQ</a><a href="{{ url_for('contact_page') }}">Contact Us</a></div>
     </div>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+

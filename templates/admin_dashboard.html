@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>Admin Dashboard | AiSentinal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="{{ url_for('app_home') }}" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
+      <nav class="site-nav" id="siteNav">
+        <a href="{{ url_for('app_home') }}">Home</a>
+        <a href="{{ url_for('detect_page') }}">Detect</a>
+        <a href="{{ url_for('detected_page') }}">Detected</a>
+        <a href="{{ url_for('about_page') }}">About Us</a>
+        <a href="{{ url_for('admin_dashboard_page') }}" class="active">Admin Portal</a>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+          <span class="toggle-track">
+            <span class="toggle-cloud"></span>
+            <span class="toggle-knob"></span>
+          </span>
+        </button>
+        <a href="#" class="btn btn-link" data-logout>Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Admin Control Dashboard</h1>
+        <p class="lead">System-wide realtime user and detection activity, plus static engagement insights.</p>
+      </div>
+    </section>
+
+    <section class="container section grid-3">
+      <article class="card">
+        <h3>No. of Users</h3>
+        <p class="kpi">{{ stats.total_users or 0 }}</p>
+      </article>
+      <article class="card">
+        <h3>No. of Uploads</h3>
+        <p class="kpi">{{ stats.total_uploads or 0 }}</p>
+      </article>
+      <article class="card">
+        <h3>No. of Detections</h3>
+        <p class="kpi">{{ stats.total_detections or 0 }}</p>
+      </article>
+      <article class="card">
+        <h3>Flagged (FAKE)</h3>
+        <p class="kpi">{{ stats.flagged_count or 0 }}</p>
+      </article>
+      <article class="card">
+        <h3>Authentic (REAL)</h3>
+        <p class="kpi">{{ stats.authentic_count or 0 }}</p>
+      </article>
+      <article class="card">
+        <h3>Errors</h3>
+        <p class="kpi">{{ stats.error_count or 0 }}</p>
+      </article>
+    </section>
+
+    <section class="container section grid-3">
+      <article class="card">
+        <h3>Total Clicks</h3>
+        <p class="kpi">{{ engagement.total_clicks }}</p>
+      </article>
+      <article class="card">
+        <h3>Forwarded</h3>
+        <p class="kpi">{{ engagement.forwarded_items }}</p>
+      </article>
+      <article class="card">
+        <h3>Report Downloads</h3>
+        <p class="kpi">{{ engagement.report_downloads }}</p>
+      </article>
+    </section>
+
+    <section class="container section">
+      <article class="card" style="overflow-x:auto;">
+        <h2>All User Activities (Realtime)</h2>
+        <table style="width:100%; border-collapse: collapse; min-width: 920px;">
+          <thead>
+            <tr>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">ID</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">User</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">Email</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">File</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">Result</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">Confidence</th>
+              <th style="text-align:left; border-bottom:1px solid var(--border); padding:0.6rem;">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in activities %}
+            <tr>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.id }}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.username }}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.email }}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.filename }}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.output }}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{% if row.confidence is not none %}{{ '%.2f'|format(row.confidence) }}%{% else %}-{% endif %}</td>
+              <td style="padding:0.6rem; border-bottom:1px solid var(--border);">{{ row.created_at }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="7" style="padding:0.8rem;">No activities found yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 AiSentinal. All rights reserved.</p>
+      <div class="footer-links"><a href="{{ url_for('faq_page') }}">FAQ</a><a href="{{ url_for('contact_page') }}">Contact Us</a></div>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

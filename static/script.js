@@ -1,5 +1,26 @@
 const menuBtn = document.getElementById("menuBtn");
 const siteNav = document.getElementById("siteNav");
+const themeToggle = document.getElementById("themeToggle");
+const THEME_KEY = "aisentinalTheme";
+const hasLogoutControl = document.querySelector("[data-logout]") !== null;
+
+function applyTheme(theme) {
+  const normalized = theme === "dark" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", normalized);
+  localStorage.setItem(THEME_KEY, normalized);
+  if (themeToggle) {
+    const isDark = normalized === "dark";
+    themeToggle.setAttribute("aria-pressed", isDark ? "true" : "false");
+    themeToggle.setAttribute("title", isDark ? "Switch to bright mode" : "Switch to dark mode");
+  }
+}
+
+if (hasLogoutControl) {
+  const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+  applyTheme(savedTheme);
+} else {
+  applyTheme("light");
+}
 
 if (menuBtn && siteNav) {
   menuBtn.addEventListener("click", () => {
@@ -11,34 +32,31 @@ if (menuBtn && siteNav) {
   });
 }
 
-const currentPage = window.location.pathname.split("/").pop() || "index.html";
-const isLoggedIn = localStorage.getItem("aisentinalAuth") === "1";
-const protectedPages = new Set(["app.html", "dashboard.html", "detect.html", "detected.html", "faq.html"]);
-const authPages = new Set(["login.html", "signup.html"]);
-
-if (protectedPages.has(currentPage) && !isLoggedIn) {
-  window.location.href = "login.html";
-}
-
-if (authPages.has(currentPage) && isLoggedIn) {
-  window.location.href = "app.html";
-}
-
-const authRedirectForms = document.querySelectorAll("form[data-auth-redirect]");
-authRedirectForms.forEach((form) => {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    localStorage.setItem("aisentinalAuth", "1");
-    const target = form.getAttribute("data-auth-redirect") || "app.html";
-    window.location.href = target;
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const current = localStorage.getItem(THEME_KEY) || "light";
+    applyTheme(current === "dark" ? "light" : "dark");
   });
-});
+}
 
 const logoutButtons = document.querySelectorAll("[data-logout]");
+const csrfMeta = document.querySelector("meta[name='csrf-token']");
+const csrfToken = csrfMeta ? csrfMeta.getAttribute("content") : "";
 logoutButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
-    localStorage.removeItem("aisentinalAuth");
-    window.location.href = "index.html";
+    applyTheme("light");
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/logout";
+    if (csrfToken) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "csrf_token";
+      input.value = csrfToken;
+      form.appendChild(input);
+    }
+    document.body.appendChild(form);
+    form.submit();
   });
 });

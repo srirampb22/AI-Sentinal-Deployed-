@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Detected Results | AiSentinal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +13,21 @@
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a href="app.html" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
+      <a href="{{ url_for('app_home') }}" class="logo"><span class="logo-mark">AS</span><span>AiSentinal</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">Menu</button>
       <nav class="site-nav" id="siteNav">
-        <a href="app.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="detect.html">Detect</a>
-        <a href="detected.html" class="active">Detected</a>
-        <a href="about.html">About Us</a>
+        <a href="{{ url_for('app_home') }}">Home</a>
+        {% if not current_user.is_admin %}<a href="{{ url_for('dashboard_page') }}">Dashboard</a>{% endif %}
+        <a href="{{ url_for('detect_page') }}">Detect</a>
+        <a href="{{ url_for('detected_page') }}" class="active">Detected</a>
+        <a href="{{ url_for('about_page') }}">About Us</a>
+        {% if current_user.is_admin %}<a href="{{ url_for('admin_dashboard_page') }}">Admin Portal</a>{% endif %}
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+          <span class="toggle-track">
+            <span class="toggle-cloud"></span>
+            <span class="toggle-knob"></span>
+          </span>
+        </button>
         <a href="#" class="btn btn-link" data-logout>Logout</a>
       </nav>
     </div>
@@ -29,36 +37,36 @@
     <section class="page-head">
       <div class="container">
         <h1>Detected Media Queue</h1>
-        <p class="lead">Review media that was flagged as likely manipulated and prioritize manual checks.</p>
+        <p class="lead">Shows actual scans that your account flagged as FAKE.</p>
       </div>
     </section>
 
     <section class="container section grid-3">
+      {% for scan in fake_scans %}
       <article class="card">
-        <h3>Press_Briefing_v3.mp4</h3>
-        <p>Risk Score: <span class="status warn">89%</span></p>
-        <p>Detected: Lip-sync mismatch and temporal blending artifacts.</p>
+        <h3>{{ scan.filename }}</h3>
+        <p>Risk Score: <span class="status warn">{{ '%.2f'|format(scan.confidence or 0) }}%</span></p>
+        <p>Detected At: {{ scan.created_at }}</p>
+        {% if scan.notes %}<p>Notes: {{ scan.notes }}</p>{% endif %}
       </article>
+      {% else %}
       <article class="card">
-        <h3>founder_portrait_new.jpg</h3>
-        <p>Risk Score: <span class="status warn">81%</span></p>
-        <p>Detected: Skin texture discontinuities and synthetic edge transitions.</p>
+        <h3>No flagged media yet</h3>
+        <p>Upload and analyze videos. FAKE results will appear here automatically.</p>
       </article>
-      <article class="card">
-        <h3>voice_ad_video_07.mp4</h3>
-        <p>Risk Score: <span class="status warn">77%</span></p>
-        <p>Detected: Irregular facial motion signature against source profile.</p>
-      </article>
+      {% endfor %}
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-wrap">
       <p>© 2026 AiSentinal. All rights reserved.</p>
-      <div class="footer-links"><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a></div>
+      <div class="footer-links"><a href="{{ url_for('faq_page') }}">FAQ</a><a href="{{ url_for('contact_page') }}">Contact Us</a></div>
     </div>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+

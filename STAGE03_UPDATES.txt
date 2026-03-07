@@ -1,0 +1,53 @@
+Stage 03 Updates Summary (AI-Sentinal)
+Date: 2026-02-28
+
+1) Theme Switcher (Logged-in UI)
+- Added functional light/dark theme switcher in navbar beside Logout.
+- Replaced initial dropdown with a compact sliding toggle style.
+- Dark mode uses a tilted crescent moon visual on toggle.
+- Theme is persisted via localStorage across logged-in pages.
+
+2) Theme Consistency Rules
+- Public/non-user pages are forced to bright mode only.
+- On logout, theme resets automatically to bright mode.
+- Removed radial/white-circle background artifacts in dark mode and switched to solid dark background.
+
+3) UI/Navigation Fixes
+- Fixed Sign Up button text contrast issue.
+- Fixed About Us navbar inconsistency for logged-in users.
+- Added consistent logged-in nav rendering in protected views.
+
+4) Session Security Improvement
+- Implemented single active session per user (one device/browser at a time).
+- If same account logs in elsewhere, user gets confirmation prompt:
+  - Yes: old session invalidated, new session activated.
+  - No: login blocked, old session remains active.
+
+5) Admin Portal (New Role Experience)
+- Added admin-only dashboard route: /admin/dashboard.html
+- Added role guard so only admin users can access admin portal.
+- Added Admin Portal nav link visible only to admin users.
+- Made admin navbar placement consistent across pages.
+
+6) Admin Dashboard Content
+- Realtime widgets from database:
+  - total users
+  - total uploads
+  - total detections
+  - fake count
+  - real count
+  - error count
+- Realtime activity table showing latest scans across all users.
+- Added static engagement widgets (prefilled for now):
+  - total clicks
+  - forwarded items
+  - report downloads
+
+7) Admin/User Dashboard Separation
+- Admin users are redirected from /dashboard.html to /admin/dashboard.html
+- Admin accounts no longer use normal user dashboard flow.
+- Home CTA "Open Dashboard" now routes admins to admin dashboard.
+
+Notes
+- Core deepfake detection pipeline remains intact.
+- Existing auth, CSRF, rate limiting, and persistence from Stage 02 remain active.
