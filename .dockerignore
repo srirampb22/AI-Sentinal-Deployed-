@@ -7,3 +7,15 @@ __pycache__/
 .git/
 .github/
 tests/
+.vscode/
+Ai-Sentinal/
+Uploaded_Files/
+README.md
+HANDBOOK_LOCAL_SETUP.md
+STAGE03_UPDATES.txt
+RUN_LOCAL.bat
+RUN_LOCAL.ps1
+SETUP_LOCAL.bat
+docker-compose.yml
+requirements-ci.txt
+*.html

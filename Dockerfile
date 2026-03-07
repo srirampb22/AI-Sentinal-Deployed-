@@ -8,7 +8,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY app.py wsgi.py ./
+COPY templates ./templates
+COPY static ./static
+COPY model ./model
 
 EXPOSE 5000
 
