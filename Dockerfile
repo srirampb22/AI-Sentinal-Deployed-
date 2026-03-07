@@ -6,7 +6,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu \
+    torch==2.2.2+cpu torchvision==0.17.2+cpu && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY app.py wsgi.py ./
 COPY templates ./templates
