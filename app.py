@@ -3,6 +3,7 @@ import os
 import secrets
 import sqlite3
 import time
+import urllib.request
 import uuid
 from collections import defaultdict, deque
 from functools import wraps
@@ -31,7 +32,8 @@ except Exception:
 
 BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_FOLDER = BASE_DIR / "Uploaded_Files"
-MODEL_PATH = BASE_DIR / "model" / "df_model.pt"
+MODEL_PATH = Path(os.getenv("MODEL_PATH", "/app/data/model/df_model.pt"))
+MODEL_URL = os.getenv("MODEL_URL", "").strip()
 DB_PATH = Path(os.getenv("DB_PATH", str(BASE_DIR / "aisentinal.db")))
 
 ALLOWED_VIDEO_EXTS = {"mp4", "mov", "avi", "mkv", "webm"}
@@ -156,7 +158,10 @@ def run_startup_checks():
     if app.config["SECRET_KEY"] == "dev-change-this-secret":
         issues.append("SECRET_KEY is using default value.")
     if not MODEL_PATH.exists():
-        issues.append(f"Model file is missing: {MODEL_PATH}")
+        if MODEL_URL:
+            logger.info("Model missing at startup. Will download from MODEL_URL on demand.")
+        else:
+            issues.append(f"Model file is missing: {MODEL_PATH}")
     if not UPLOAD_FOLDER.exists():
         issues.append(f"Upload folder is missing: {UPLOAD_FOLDER}")
     if not google_oauth:
@@ -171,6 +176,19 @@ def run_startup_checks():
 
 def _allowed_video(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_VIDEO_EXTS
+
+
+def ensure_model_available():
+    if MODEL_PATH.exists():
+        return
+    if not MODEL_URL:
+        raise FileNotFoundError(
+            f"Model file not found at {MODEL_PATH}. Set MODEL_URL for automatic download."
+        )
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    logger.info("Downloading model from MODEL_URL to %s", MODEL_PATH)
+    urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+    logger.info("Model download completed.")
 
 
 def _safe_next(target: str | None) -> str | None:
@@ -314,8 +332,7 @@ def _get_detection_model():
             x_lstm, _ = self.lstm(x, None)
             return fmap, self.dp(self.linear1(x_lstm[:, -1, :]))
 
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
+    ensure_model_available()
 
     model = Model(2)
     model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device("cpu")))
