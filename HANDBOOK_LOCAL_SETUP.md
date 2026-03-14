@@ -1,3 +1,3 @@
-Run Setup file if you are running Ai-Sentinal for the first time. and the run RUN_LOCAL.bat file to start your localhost server where you can test deepfake videos.
-if not first time the directly run RUN_LOCAL.bat file 
-login with admin:admin only 
+If you are running AI Sentinel for the first time, start by executing the setup file to install the required dependencies and configurations. After the setup is complete, run the RUN_LOCAL.bat file to start the local server and access the platform through localhost for testing deepfake detection.
+
+For subsequent runs, you can directly execute RUN_LOCAL.bat to start the server and log in/create your account giving your credentials.
