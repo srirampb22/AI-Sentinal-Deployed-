@@ -1,4 +1,4 @@
-# AI-Sentinal (Stage 02)
+# AI-Sentinal
 
 AI-Sentinal is a Flask-based deepfake detection prototype with:
 - video upload + model inference
